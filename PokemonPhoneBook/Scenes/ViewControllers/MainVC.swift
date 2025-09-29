@@ -4,6 +4,7 @@ import UIKit
 
 class MainVC: UIViewController{
     let phoneTableView = PhoneBookTableView()
+    let addContactVC = AddContactVC()
     
     override func loadView() {
         super.loadView()
@@ -26,7 +27,7 @@ class MainVC: UIViewController{
         self.navigationItem.rightBarButtonItem = addButton
     }
     @objc func addButtonTapped(){
-        
+        self.navigationController?.pushViewController(addContactVC, animated: true)
     }
     func configureView(){
         self.view.addSubview(phoneTableView)
