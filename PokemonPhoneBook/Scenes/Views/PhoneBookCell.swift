@@ -1,9 +1,3 @@
-//
-//  PhoneBookCell.swift
-//  PokemonPhoneBook
-//
-//  Created by oww on 9/29/25.
-//
 
 import Foundation
 import UIKit
@@ -11,12 +5,12 @@ import SnapKit
 
 class PhoneBookCell:UITableViewCell{
     static let identifier = "PhoneBookCell"
-    
     struct PhoneDatas{
         let name: String
         let phone: String
-        let imageName: String?
+        let image: Data?
     }
+
     
     var uiImage: UIImageView = {
         let img = UIImageView()
@@ -78,8 +72,8 @@ class PhoneBookCell:UITableViewCell{
         self.nameText.text = phoneDatas.name
         self.phoneText.text = phoneDatas.phone
         
-        if let imageName = phoneDatas.imageName {
-            uiImage.image = UIImage(named: imageName)
+        if let imageName = phoneDatas.image {
+            uiImage.image = UIImage(data: imageName)
             uiImage.backgroundColor = .clear
         }else{
             uiImage.image = nil
