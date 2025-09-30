@@ -5,13 +5,13 @@ import SnapKit
 
 class PhoneBookCell:UITableViewCell{
     static let identifier = "PhoneBookCell"
+    
     struct PhoneDatas{
         let name: String
         let phone: String
         let image: Data?
     }
 
-    
     var uiImage: UIImageView = {
         let img = UIImageView()
         img.layer.cornerRadius = 30

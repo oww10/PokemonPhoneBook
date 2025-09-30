@@ -9,6 +9,7 @@ class AddContactVC:UIViewController{
     let pokemonSpriteFetcher = PokemonSpriteFetch()
     
     var container: NSPersistentContainer!
+    
     weak var delegate: AddContactDelegate?
     
     override func loadView() {
@@ -27,10 +28,15 @@ class AddContactVC:UIViewController{
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        resetAddContactUI()
+    }
+    
+    private func resetAddContactUI(){
         addView.randomIMG.image = nil
         addView.nameTextField.text = ""
         addView.phoneNumberTextField.text = ""
     }
+    
     private func configureView(){
         view.addSubview(addView)
         
@@ -48,12 +54,50 @@ class AddContactVC:UIViewController{
         self.navigationItem.rightBarButtonItem = saveButton
         
     }
+    enum saveButtonError: Error {
+        case noRandomImgError
+        case phoneNumsError
+        case noNameError
+    }
     
     @objc func saveButtonTapped(){
+        let alert = UIAlertController(title: "알림", message: nil, preferredStyle: .alert)
+        let doneAction = UIAlertAction(title: "확인", style: .default)
         
-        createData(name: addView.nameTextField.text!, phoneNumber: addView.phoneNumberTextField.text!, image: (addView.randomIMG.image?.pngData())!)
-        delegate?.didAddNewContact()
-        self.navigationController?.popViewController(animated: true)
+        do {
+            guard let image = addView.randomIMG.image?.pngData() else {
+                throw saveButtonError.noRandomImgError
+            }
+            
+            guard let name = addView.nameTextField.text, !name.isEmpty else {
+                throw saveButtonError.noNameError
+            }
+            guard let phoneNumber = addView.phoneNumberTextField.text, !phoneNumber.isEmpty else {
+                throw saveButtonError.phoneNumsError
+            }
+            
+            createData(name: name, phoneNumber: phoneNumber, image: image)
+            delegate?.didAddNewContact()
+            self.navigationController?.popViewController(animated: true)
+            
+        } catch let error as saveButtonError {
+            switch error {
+            case .noRandomImgError:
+                alert.message = "랜덤 이미지 생성을 누르세요."
+            case .noNameError:
+                alert.message = "이름을 입력하세요."
+            case .phoneNumsError:
+                alert.message = "전화번호를 입력하세요"
+            }
+            alert.addAction(doneAction)
+            self.present(alert, animated: true)
+        } catch {
+            alert.message = "알 수 없는 오류가 발생했습니다: \(error.localizedDescription)"
+            alert.addAction(doneAction)
+            self.present(alert, animated: true)
+        }
+        
+        
     }
     
     @objc func randomImgButtonTapped(){
@@ -65,7 +109,7 @@ class AddContactVC:UIViewController{
         }
     }
     
-    func createData(name: String, phoneNumber: String, image: Data){
+    func createData(name: String, phoneNumber: String, image: Data)  {
         guard let entity = NSEntityDescription.entity(forEntityName: "PhoneBook", in: self.container.viewContext) else {return}
         let newPhoneBook = NSManagedObject(entity: entity, insertInto: self.container.viewContext)
         newPhoneBook.setValue(name, forKey: "name")

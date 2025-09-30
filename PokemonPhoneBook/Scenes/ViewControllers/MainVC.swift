@@ -9,7 +9,10 @@ protocol AddContactDelegate: AnyObject {
     func didAddNewContact()
 }
 
-class MainVC: UIViewController{
+class MainVC: UIViewController,AddContactDelegate{
+    func didAddNewContact() {
+        readAllData()
+    }
     let phoneTableView = PhoneBookTableView()
     
     var container: NSPersistentContainer!
@@ -102,10 +105,6 @@ class MainVC: UIViewController{
             print("데이터 읽기 실패: \(error)")
         }
     }
-}
+    
 
-extension MainVC: AddContactDelegate {
-    func didAddNewContact() {
-        readAllData()
-    }
 }
