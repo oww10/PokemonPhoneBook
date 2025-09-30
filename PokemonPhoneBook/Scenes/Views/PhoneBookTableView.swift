@@ -1,3 +1,9 @@
+//
+//  PhoneBookTableVIew.swift
+//  PokemonPhoneBook
+//
+//  Created by oww on 9/29/25.
+//
 
 import Foundation
 import UIKit
@@ -6,13 +12,14 @@ import SnapKit
 class PhoneBookTableView: UIView, UITableViewDataSource, UITableViewDelegate{
     
     let tableView = UITableView()
-    weak var delegate: AddContactDelegate?
     
-    var phoneBookEntries: [PhoneBookCell.PhoneDatas] = [] {
-            didSet {
-                tableView.reloadData()
-            }
-        }
+    var phoneBookEntries: [PhoneBookCell.PhoneDatas] = [
+        PhoneBookCell.PhoneDatas(name: "name", phone: "010-0000-0000", imageName: "pikachu"),
+        PhoneBookCell.PhoneDatas(name: "name", phone: "010-0000-0000", imageName: "pikachu"),
+        PhoneBookCell.PhoneDatas(name: "name", phone: "010-0000-0000", imageName: "pikachu"),
+        PhoneBookCell.PhoneDatas(name: "name", phone: "010-0000-0000", imageName: "pikachu"),
+        PhoneBookCell.PhoneDatas(name: "name", phone: "010-0000-0000", imageName: "pikachu")
+    ]
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,7 +63,6 @@ class PhoneBookTableView: UIView, UITableViewDataSource, UITableViewDelegate{
         
         return cell
     }
-    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         80
