@@ -20,6 +20,7 @@ class MainVC: UIViewController,AddContactDelegate{
     var phoneBookEntries: [PhoneBookCell.PhoneDatas] = [] {
         didSet {
             phoneTableView.phoneBookEntries = phoneBookEntries
+            
         }
     }
     
@@ -100,7 +101,12 @@ class MainVC: UIViewController,AddContactDelegate{
         do {
             self.phoneBookEntries.removeAll()
             
-            let phoneBooks = try self.container.viewContext.fetch(PhoneBook.fetchRequest()) as [PhoneBook]
+            let fetchRequest: NSFetchRequest<PhoneBook> = PhoneBook.fetchRequest()
+                                                
+            let sortingDescriptor = NSSortDescriptor(key: "name", ascending: true)
+            fetchRequest.sortDescriptors = [sortingDescriptor]
+            
+            let phoneBooks = try self.container.viewContext.fetch(fetchRequest) as [PhoneBook]
             
             for phonebook in phoneBooks {
                 if let name = phonebook.name,
@@ -109,6 +115,9 @@ class MainVC: UIViewController,AddContactDelegate{
                     
                     let newEntry = PhoneBookCell.PhoneDatas(name: name, phone: phoneNumber, image: image)
                     self.phoneBookEntries.append(newEntry)
+                    
+                    
+                    
                 }
             }
             
