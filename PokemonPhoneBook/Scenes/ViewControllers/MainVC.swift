@@ -55,11 +55,22 @@ class MainVC: UIViewController,AddContactDelegate{
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = PhoneBook.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         
+        if self.phoneBookEntries.isEmpty {
+            let emptyAlert = UIAlertController(title: "알림", message: "삭제할 데이터가 없습니다.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            emptyAlert.addAction(okAction)
+            self.present(emptyAlert, animated: true)
+            return
+        }
+        
+        
         do{
             try container.viewContext.execute(deleteRequest)
             try container.viewContext.save()
-            
             self.phoneBookEntries.removeAll()
+            let removeAlert = UIAlertController(title: "알림", message: "데이터가 삭제되었습니다.", preferredStyle: .alert)
+            removeAlert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+            self.present(removeAlert, animated: true)
         } catch{
             print("데이터 삭제 실패")
         }
@@ -106,5 +117,5 @@ class MainVC: UIViewController,AddContactDelegate{
         }
     }
     
-
+    
 }
