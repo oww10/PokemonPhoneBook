@@ -4,18 +4,14 @@ import UIKit
 import CoreData
 import SnapKit
 
-
-protocol AddContactDelegate: AnyObject {
-    func didAddNewContact()
-    func didUpdateContact()
-}
-
-class MainVC: UIViewController,AddContactDelegate, PhoneBookTableViewDelegate{
+class MainVC: UIViewController,ContactDelegate, PhoneBookTableViewDelegate{
+    func didAddNewContact() {
+        readAllData()
+    }
     func didUpdateContact() {
         readAllData()
     }
-    
-    
+
     func phoneBookTableView(_ tableView: PhoneBookTableView, didSelectRowAt indexPath: IndexPath) {
         print("Cell Tap")
         
@@ -29,9 +25,7 @@ class MainVC: UIViewController,AddContactDelegate, PhoneBookTableViewDelegate{
         self.navigationController?.pushViewController(addVC, animated: true)
     }
     
-    func didAddNewContact() {
-        readAllData()
-    }
+
     let phoneTableView = PhoneBookTableView()
     
     var container: NSPersistentContainer!
@@ -58,7 +52,7 @@ class MainVC: UIViewController,AddContactDelegate, PhoneBookTableViewDelegate{
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.container = appDelegate.persistentContainer
         
-        phoneTableView.customDelegate = self
+        phoneTableView.tableViewDelegate = self
         
         readAllData()
     }
@@ -136,11 +130,8 @@ class MainVC: UIViewController,AddContactDelegate, PhoneBookTableViewDelegate{
                    let phoneNumber = phonebook.phoneNumber {
                     let image = phonebook.image
                     
-                    let newEntry = PhoneBookCell.PhoneDatas(name: name, phone: phoneNumber, image: image)
-                    self.phoneBookEntries.append(newEntry)
-                    
-                    
-                    
+                    let newData = PhoneBookCell.PhoneDatas(name: name, phone: phoneNumber, image: image)
+                    self.phoneBookEntries.append(newData)
                 }
             }
             

@@ -12,7 +12,7 @@ class AddContactVC:UIViewController{
     
     var contactEdit: PhoneBookCell.PhoneDatas?
     
-    weak var delegate: AddContactDelegate?
+    weak var delegate: ContactDelegate?
     
     override func loadView() {
         super.loadView()
@@ -26,17 +26,13 @@ class AddContactVC:UIViewController{
         configureView()
         setupUI()
         
-    }
-    
-    
-    
+    }    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         resetAddContactUI()
     }
     
     private func editContact(){
-        
         if let contact = contactEdit{
             guard let image = contact.image else { return }
             self.title = "\(contact.name)"

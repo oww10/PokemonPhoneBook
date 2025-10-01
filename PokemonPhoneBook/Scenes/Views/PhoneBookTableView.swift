@@ -4,15 +4,11 @@ import UIKit
 import SnapKit
 import CoreData
 
-protocol PhoneBookTableViewDelegate: AnyObject {
-    func phoneBookTableView(_ tableView: PhoneBookTableView, didSelectRowAt indexPath: IndexPath)
-}
-
 class PhoneBookTableView: UIView, UITableViewDataSource, UITableViewDelegate{
     
     private let tableView = UITableView()
-    weak var delegate: AddContactDelegate?
-    weak var customDelegate: PhoneBookTableViewDelegate?
+    weak var delegate: ContactDelegate?
+    weak var tableViewDelegate: PhoneBookTableViewDelegate?
     
     var phoneBookEntries: [PhoneBookCell.PhoneDatas] = [] {
         didSet {
@@ -47,6 +43,8 @@ class PhoneBookTableView: UIView, UITableViewDataSource, UITableViewDelegate{
         }
     }
     
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return phoneBookEntries.count
     }
@@ -67,7 +65,7 @@ class PhoneBookTableView: UIView, UITableViewDataSource, UITableViewDelegate{
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        customDelegate?.phoneBookTableView(self, didSelectRowAt: indexPath)
+        tableViewDelegate?.phoneBookTableView(self, didSelectRowAt: indexPath)
     }
     
     
