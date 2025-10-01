@@ -68,9 +68,6 @@ class PhoneBookTableView: UIView, UITableViewDataSource, UITableViewDelegate{
         tableView.deselectRow(at: indexPath, animated: true)
         
         customDelegate?.phoneBookTableView(self, didSelectRowAt: indexPath)
-        
-        
-        
     }
     
     

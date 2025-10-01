@@ -10,6 +10,8 @@ class AddContactView: UIView{
         img.layer.borderWidth = 1
         img.layer.borderColor = UIColor.gray.cgColor
         img.layer.cornerRadius = 100
+        img.contentMode = .scaleAspectFit
+        img.clipsToBounds = true
         return img
     }()
     

@@ -7,9 +7,14 @@ import SnapKit
 
 protocol AddContactDelegate: AnyObject {
     func didAddNewContact()
+    func didUpdateContact()
 }
 
 class MainVC: UIViewController,AddContactDelegate, PhoneBookTableViewDelegate{
+    func didUpdateContact() {
+        readAllData()
+    }
+    
     
     func phoneBookTableView(_ tableView: PhoneBookTableView, didSelectRowAt indexPath: IndexPath) {
         print("Cell Tap")

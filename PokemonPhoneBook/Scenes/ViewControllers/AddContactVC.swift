@@ -47,11 +47,14 @@ class AddContactVC:UIViewController{
             self.title = "새 연락처"
         }
     }
+    
+    
     private func resetAddContactUI(){
         addView.randomIMG.image = nil
         addView.nameTextField.text = ""
         addView.phoneNumberTextField.text = ""
     }
+    
     
     private func configureView(){
         view.addSubview(addView)
@@ -92,8 +95,15 @@ class AddContactVC:UIViewController{
                 throw saveButtonError.phoneNumsError
             }
             
-            createData(name: name, phoneNumber: phoneNumber, image: image)
+            if contactEdit != nil {
+                updateData(name: name, phoneNumber: phoneNumber, image: image)
+                delegate?.didUpdateContact()
+            } else {
+                createData(name: name, phoneNumber: phoneNumber, image: image)
+                delegate?.didAddNewContact()
+            }
             delegate?.didAddNewContact()
+            
             self.navigationController?.popViewController(animated: true)
             
         } catch let error as saveButtonError {
@@ -137,6 +147,30 @@ class AddContactVC:UIViewController{
             print("저장 성공")
         }catch{
             print("저장 실패")
+        }
+    }
+    
+    private func updateData(name: String, phoneNumber: String, image: Data){
+        guard let originName = self.contactEdit?.name else { return}
+        let fetchRequest = PhoneBook.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", originName)
+        
+        do {
+            let result = try self.container.viewContext.fetch(fetchRequest)
+            
+            if let dataUpdate = result.first {
+                dataUpdate.setValue(name, forKey: "name")
+                dataUpdate.setValue(phoneNumber, forKey: "phoneNumber")
+                dataUpdate.setValue(image, forKey: "image")
+                
+                try self.container.viewContext.save()
+                print("데이터 수정 완료")
+            } else {
+                print("업데이트할 데이터를 찾지 못했습니다.")
+            }
+            
+        } catch {
+            print("데이터 수정 실패")
         }
     }
     

@@ -17,7 +17,8 @@ class PhoneBookCell:UITableViewCell{
         img.layer.cornerRadius = 30
         img.layer.borderColor = UIColor.black.cgColor
         img.layer.borderWidth = 1
-        
+        img.contentMode = .scaleAspectFit
+        img.clipsToBounds = true
         return img
     }()
     
