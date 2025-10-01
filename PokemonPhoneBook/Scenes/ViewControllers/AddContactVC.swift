@@ -10,6 +10,8 @@ class AddContactVC:UIViewController{
     
     var container: NSPersistentContainer!
     
+    var contactEdit: PhoneBookCell.PhoneDatas?
+    
     weak var delegate: AddContactDelegate?
     
     override func loadView() {
@@ -19,18 +21,32 @@ class AddContactVC:UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        self.title = "연락처 추가"
+        editContact()
         setupNavigationBar()
         configureView()
         setupUI()
         
     }
     
+    
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         resetAddContactUI()
     }
     
+    private func editContact(){
+        
+        if let contact = contactEdit{
+            guard let image = contact.image else { return }
+            self.title = "\(contact.name)"
+            addView.nameTextField.text = contact.name
+            addView.phoneNumberTextField.text = contact.phone
+            addView.randomIMG.image = UIImage(data: image)
+        } else {
+            self.title = "새 연락처"
+        }
+    }
     private func resetAddContactUI(){
         addView.randomIMG.image = nil
         addView.nameTextField.text = ""

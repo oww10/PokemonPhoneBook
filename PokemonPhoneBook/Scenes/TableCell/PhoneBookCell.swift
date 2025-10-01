@@ -33,12 +33,10 @@ class PhoneBookCell:UITableViewCell{
         return label
     }()
     
-    var cellButton = UIButton()
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        cellButton.addTarget(self, action: #selector(cellTapped), for: .touchUpInside)
         configureViews()
         setupUI()
     }
@@ -48,7 +46,7 @@ class PhoneBookCell:UITableViewCell{
     }
     
     private func configureViews(){
-        [uiImage,nameText,phoneText,cellButton].forEach{contentView.addSubview($0)}
+        [uiImage,nameText,phoneText].forEach{contentView.addSubview($0)}
         
     }
     private func setupUI(){
@@ -70,10 +68,7 @@ class PhoneBookCell:UITableViewCell{
             make.centerY.equalToSuperview()
         }
         
-        cellButton.snp.makeConstraints{ make in
-            make.width.height.equalToSuperview()
-            make.center.equalToSuperview()
-        }
+ 
     }
     
     func configureData(phoneDatas: PhoneDatas){
@@ -89,11 +84,6 @@ class PhoneBookCell:UITableViewCell{
         }
     }
     
-    @objc func cellTapped(){
-        
-        print("셀이 Tap")
-        
-        
-    }
+
     
 }

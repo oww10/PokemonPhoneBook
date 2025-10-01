@@ -2,18 +2,24 @@
 import Foundation
 import UIKit
 import SnapKit
+import CoreData
+
+protocol PhoneBookTableViewDelegate: AnyObject {
+    func phoneBookTableView(_ tableView: PhoneBookTableView, didSelectRowAt indexPath: IndexPath)
+}
 
 class PhoneBookTableView: UIView, UITableViewDataSource, UITableViewDelegate{
     
-    let tableView = UITableView()
+    private let tableView = UITableView()
     weak var delegate: AddContactDelegate?
+    weak var customDelegate: PhoneBookTableViewDelegate?
     
     var phoneBookEntries: [PhoneBookCell.PhoneDatas] = [] {
-            didSet {
-                tableView.reloadData()
-            }
+        didSet {
+            tableView.reloadData()
         }
-
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -57,7 +63,15 @@ class PhoneBookTableView: UIView, UITableViewDataSource, UITableViewDelegate{
         return cell
     }
     
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        customDelegate?.phoneBookTableView(self, didSelectRowAt: indexPath)
+        
+        
+        
+    }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
