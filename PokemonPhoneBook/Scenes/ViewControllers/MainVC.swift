@@ -9,7 +9,21 @@ protocol AddContactDelegate: AnyObject {
     func didAddNewContact()
 }
 
-class MainVC: UIViewController,AddContactDelegate{
+class MainVC: UIViewController,AddContactDelegate, PhoneBookTableViewDelegate{
+    
+    func phoneBookTableView(_ tableView: PhoneBookTableView, didSelectRowAt indexPath: IndexPath) {
+        print("Cell Tap")
+        
+        let selectedData = phoneTableView.phoneBookEntries[indexPath.row]
+        let addVC = AddContactVC()
+        addVC.container = self.container
+        addVC.delegate = self
+        
+        addVC.contactEdit = selectedData
+        print(selectedData.name)
+        self.navigationController?.pushViewController(addVC, animated: true)
+    }
+    
     func didAddNewContact() {
         readAllData()
     }
@@ -24,6 +38,7 @@ class MainVC: UIViewController,AddContactDelegate{
         }
     }
     
+    
     override func loadView() {
         super.loadView()
         self.view.backgroundColor = .white
@@ -37,6 +52,9 @@ class MainVC: UIViewController,AddContactDelegate{
         setupUI()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.container = appDelegate.persistentContainer
+        
+        phoneTableView.customDelegate = self
+        
         readAllData()
     }
     

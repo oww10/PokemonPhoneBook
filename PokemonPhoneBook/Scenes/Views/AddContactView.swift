@@ -13,7 +13,7 @@ class AddContactView: UIView{
         return img
     }()
     
-    let randomImgButton: UIButton = {
+    var randomImgButton: UIButton = {
         let button = UIButton()
         button.setTitle("랜덤 이미지 생성", for: .normal)
         button.setTitleColor(.gray, for: .normal)
@@ -21,7 +21,7 @@ class AddContactView: UIView{
         return button
     }()
     
-    let nameTextField: UITextField = {
+    var nameTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.layer.borderWidth = 1
@@ -30,7 +30,7 @@ class AddContactView: UIView{
         return textField
     }()
     
-    let phoneNumberTextField: UITextField = {
+    var phoneNumberTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.layer.borderWidth = 1
