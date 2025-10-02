@@ -10,6 +10,7 @@ class AddContactView: UIView{
         img.layer.borderWidth = 1
         img.layer.borderColor = UIColor.gray.cgColor
         img.layer.cornerRadius = 100
+        //튀어나오는 이미지 자르기
         img.contentMode = .scaleAspectFit
         img.clipsToBounds = true
         return img

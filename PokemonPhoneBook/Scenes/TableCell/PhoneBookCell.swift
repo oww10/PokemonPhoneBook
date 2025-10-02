@@ -17,6 +17,7 @@ class PhoneBookCell:UITableViewCell{
         img.layer.cornerRadius = 30
         img.layer.borderColor = UIColor.black.cgColor
         img.layer.borderWidth = 1
+        //튀어나오는 이미지 자르기
         img.contentMode = .scaleAspectFit
         img.clipsToBounds = true
         return img
