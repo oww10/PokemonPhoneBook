@@ -10,8 +10,10 @@ class PhoneBookTableView: UIView, UITableViewDataSource, UITableViewDelegate{
     weak var delegate: ContactDelegate?
     weak var tableViewDelegate: PhoneBookTableViewDelegate?
     
+    // 전화번호부 항목들을 저장하는 배열.
     var phoneBookEntries: [PhoneBookCell.PhoneDatas] = [] {
         didSet {
+            //데이터가 변경되면 테이블 뷰를 새로고침
             tableView.reloadData()
         }
     }
@@ -61,10 +63,13 @@ class PhoneBookTableView: UIView, UITableViewDataSource, UITableViewDelegate{
         return cell
     }
     
+    
+    // didSelectRowAt을 이용하여 특정 행이 선택되었을 때 호출하는 함수
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        // 셀이 선택된 후 한번만 애니메이션 출력
         tableView.deselectRow(at: indexPath, animated: true)
-        
+        // tableViewDelegate에게 어떤 행이 선택되었는지 알린다.
         tableViewDelegate?.phoneBookTableView(self, didSelectRowAt: indexPath)
     }
     

@@ -1,5 +1,4 @@
 
-
 import Foundation
 
 struct PokemonModel: Codable{

@@ -1,9 +1,3 @@
-//
-//  SceneDelegate.swift
-//  PokemonPhoneBook
-//
-//  Created by oww on 9/29/25.
-//
 
 import UIKit
 
